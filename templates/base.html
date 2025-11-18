@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Dynamic Energy-Efficient Task Scheduler</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <!-- Google Fonts (Optional - for better typography) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <!-- Brand / Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+            <i class="fa-solid fa-bolt me-2"></i>
+            <span>Energy-Aware Scheduler</span>
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto ms-3">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" 
+                       href="{{ url_for('index') }}">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'tasks_page' %}active{% endif %}" 
+                       href="{{ url_for('tasks_page') }}">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Tasks</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'scheduling' %}active{% endif %}" 
+                       href="/scheduling">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Scheduling</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'scheduler_analytics' %}active{% endif %}" 
+                       href="{{ url_for('scheduler_analytics') }}">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right Side Actions -->
+            <ul class="navbar-nav ms-auto d-flex align-items-center">
+                <!-- System Status Indicator -->
+                <li class="nav-item me-3">
+                    <div class="d-flex align-items-center glass-effect px-3 py-2" style="border-radius: 0.75rem;">
+                        <i class="fa-solid fa-circle text-success me-2" style="font-size: 0.5rem; animation: pulse 2s infinite;"></i>
+                        <span class="text-secondary" style="font-size: 0.875rem;">System Online</span>
+                    </div>
+                </li>
+                
+                <!-- Settings -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="tooltip" title="Settings">
+                        <i class="fa-solid fa-gear"></i>
+                    </a>
+                </li>
+                
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary btn-sm ms-2" href="#">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4 mb-5 px-4">
+    {% block content %}
+    <!-- Page-specific content goes here -->
+    {% endblock %}
+</div>
+
+<div id="notifications"></div>
+
+<footer class="text-center py-4 mt-5" style="border-top: 1px solid var(--card-border); background: var(--card-bg);">
+    <div class="container">
+        <p class="mb-0" style="color: var(--text-secondary); font-size: 0.875rem;">
+            <i class="fa-solid fa-bolt text-warning"></i>
+            Energy-Aware Task Scheduler © 2025 | Built with Flask & ML
+        </p>
+    </div>
+</footer>
+
+<!-- Bootstrap Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Chart.js for Data Visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<!-- Socket.IO for Real-time Communication -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<!-- Custom JavaScript Files -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+
+<!-- Initialize Bootstrap Tooltips -->
+<script>
+    // Enable Bootstrap tooltips globally
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+</script>
+
+<!-- Page-specific scripts can be added here -->
+{% block scripts %}{% endblock %}
+
+</body>
+</html>
